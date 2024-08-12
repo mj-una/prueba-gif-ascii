@@ -18,12 +18,12 @@ function setup() {
   windowResized();
 
   frameRate(18);
-  
+
   fill(255);
   textSize(size);
   textAlign(CENTER, CENTER);
 
-  lupi = loadImage("lupi.gif");
+  lupi = loadImage("lupiDef.gif");
 }
 
 
