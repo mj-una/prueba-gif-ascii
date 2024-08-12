@@ -17,6 +17,12 @@ function setup() {
   createCanvas(500, 886);
   windowResized();
 
+  frameRate(18);
+  
+  fill(255);
+  textSize(size);
+  textAlign(CENTER, CENTER);
+
   lupi = loadImage("lupi.gif");
 }
 
@@ -44,9 +50,6 @@ function draw() {
       let y = j*size;
       let t = asciiChars.charAt(tIndex);
 
-      fill(255);
-      textSize(size);
-      textAlign(CENTER, CENTER);
       text(t, x, y);
     }
   }
