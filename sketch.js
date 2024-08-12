@@ -9,7 +9,7 @@
 let lupi;
 let size = 9;
 
-let asciiChars = "    ``::ia#▓▓███";
+let asciiChars = "    ``¨¨ia#▓▓███";
 
 
 function setup() {
