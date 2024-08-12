@@ -9,7 +9,7 @@
 let lupi;
 let size = 9;
 
-let asciiChar = "    ``::ia#▓▓███";
+let asciiChars = "    ``::ia#▓▓███";
 
 
 function setup() {
@@ -38,11 +38,11 @@ function draw() {
       let b = lupi.pixels[pixelIndex + 2];
       
       let bright = (r + g + b) / 3;
-      let tIndex = floor(map(bright, 0, 255, 0, asciiChar.length));
+      let tIndex = floor(map(bright, 0, 255, 0, asciiChars.length));
       
       let x = i*size + size/2;
       let y = j*size;
-      let t = asciiChar.charAt(tIndex);
+      let t = asciiChars.charAt(tIndex);
 
       fill(255);
       textSize(size);
