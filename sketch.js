@@ -26,7 +26,7 @@ function draw() {
   lupi.loadPixels();
   
   background(0);
-  translate(4,4);
+  translate(2,4);
   
   for (let i = 0; i < lupi.width; i++) {
     for (let j = 0; j < lupi.height; j++) {
