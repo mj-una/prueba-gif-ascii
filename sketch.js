@@ -8,15 +8,16 @@
 
 let lupi;
 let size = 9;
-let asciiChar = " .i#▓█";
+
+let asciiChar = "    ``::ia#▓▓███";
 
 
 function setup() {
 
-  createCanvas(500, 600);
+  createCanvas(500, 886);
   windowResized();
 
-  lupi = loadImage("lupiDef.gif");
+  lupi = loadImage("lupi.gif");
 }
 
 
