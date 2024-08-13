@@ -21,8 +21,9 @@ let dejavuBold;
 
 // chars
 let size = 9;
-let asciiBlank = `▒░ `;
 let asciiChars = `    ''""ia#▓▓███`;
+let asciiBlank = `▒░ `;
+let asciiAtenx = `█▓▒`;
 
 // flags
 let flCargando = true;
@@ -44,8 +45,8 @@ function preload() {
 //_____________________________________________
 function setup() {
 
-  createCanvas(500, 886);
-  windowResized();
+  createCanvas(500, 886); // 9/16 aprox
+  windowResized(); // responsive
 
   frameRate(18);
 
@@ -67,28 +68,33 @@ function draw() {
     textFont(dejavuBold, 6);
     text(txLupiloop, 250, 490);
 
+    textFont(dejavuBold, 12);
+    text(txVersion, 250, 580);
+
     textFont(dejavuBold, 3);
-    text(txAnio1, 250, 610);
+    text(txAnio, 250, 610);
 
     return; // salida temprana del draw
   }
 
+  // cuando termina loading
   if (flCargando) {
     lupi.frame(1);
     lupi.play();
-    flCargando = false;
+    flCargando = false; // para q no se repita nunca mas
   }
   
   // referencia
-  image(lupi, 0, 0);
-  let gifFrame = lupi.frame(); // frame actual del gif
+  image(lupi, 0, 0); // queda oculto por background()
   lupi.loadPixels(); // almacena valores en array "pixels"
   
-  // lienzo
+  let gifFrame = lupi.frame(); // frame actual del gif
+  // loadGif(), .frame(), .loaded(), .pause(), .play()
+  // vienen de la libreria p5.gif.js
+
+  // lienzo general
   background(0);
-  translate(2,4);
-  
-  // fondo principal
+  translate(2,4); // por toc
   textFont(dejavu, size);
 
   // si llega a final del gif, activar ruido
@@ -97,29 +103,50 @@ function draw() {
   // PANTALLA RUIDO
   if (flRuido) { 
     
-    // si recien 
+    // si recien esta entrando a "if (ruido)"
     if (flPausar) {
       
-      flPausar = false; // flag para evitar q entre de nuevo aqui
+      flPausar = false; // para no repetir bloque durante cuenta regresiva
+      
       lupi.frame(1); // vuelve a frame inicial
       lupi.pause(); // pausar gif
-      
-      setTimeout(() => { // despues de dos segundos
-        lupi.play(); // ...y quita pausa.
+
+      // cuenta regresiva
+      setTimeout(() => { 
+
+        // despues de dos segundos:
         flPausar = true; // reactivar flag pausa
         flRuido = false; // desactivar flag ruido
-      }, 2000); // cuenta regresiva en milisegundos
+        
+        lupi.play(); // quitar pausa al gif.
+
+      }, 2000); // tiempo en milisegundos
     }
 
+    // ruido
     for (let i = 0; i < lupi.width; i++) {
       for (let j = 0; j < lupi.height; j++) {
 
         let x = i * size;
         let y = j * size;
         let t = asciiBlank[floor(random(3))];
+
         text(t, x, y);
       }
     }
+
+    // ""DESLIZA""
+    push();
+    resetMatrix();
+  
+    fill(0);
+    rect(16, 575, 458, 62); // rect
+  
+    fill(255);
+    textFont(dejavu, 5.6);
+    text(txDesliza, 246, 596); // tx
+    noLoop();
+    pop();
   }
 
   // PANTALLA ASCII
@@ -144,8 +171,9 @@ function draw() {
     }
   }
 
-  // textos temporales
+  // textos:
 
+  // ""ATENCION""
   if (gifFrame > 1 && gifFrame < 40) {
     push();
     translate(250, 100)
@@ -157,95 +185,81 @@ function draw() {
 
     fill(255, t1 + t2);
     textFont(dejavuBold, 12);
-    text(txAtencion, -20, 10); // tx ""ATENCION""
+    text(txAtencion(), -20, 10); // tx
     pop();
   }
 
-  if (gifFrame > 1 && gifFrame < 4) {
+  // ""PORFAVOR"" pt1
+  if (gifFrame > 1 && gifFrame <= 5) {
     push();
-    translate(340, 270);
+    translate(400, 170);
     rotate(0.05);
 
     fill(255);
     stroke(255);
-    strokeWeight(1);
-    textFont(dejavuBold, 1);
-    text(txPorfavor, 0, 0); // tx ""PORFAVOR"" pt1
+    strokeWeight(0.42);
+    textFont(dejavuBold, 2);
+    text(txPorfavor, 0, 0); // tx
     pop();
   }
 
-  if (gifFrame > 5 && gifFrame < 8) {
+  // ""PORFAVOR"" pt2
+  if (gifFrame > 7 && gifFrame <= 9) {
     push();
-    translate(350, 290);
+    translate(400, 210);
     rotate(0.11);
 
     fill(255);
     stroke(255);
-    strokeWeight(1);
-    textFont(dejavuBold, 1.5);
-    text(txPorfavor, 0, 0); // tx ""PORFAVOR"" pt2
+    strokeWeight(0.4);
+    textFont(dejavuBold, 2.1);
+    text(txPorfavor, 0, 0); // tx
     pop();
   }
 
-  if (gifFrame > 9 && gifFrame < 12) {
+  // ""PORFAVOR"" pt3
+  if (gifFrame > 10 && gifFrame < 13) {
     push();
-    translate(359, 310);
+    translate(400, 250);
     rotate(0.22);
 
     fill(255);
     stroke(255);
-    strokeWeight(1);
-    textFont(dejavuBold, 2);
-    text(txPorfavor, 0, 0); // tx ""PORFAVOR"" pt3
+    strokeWeight(0.38);
+    textFont(dejavuBold, 2.3);
+    text(txPorfavor, 0, 0); // tx
     pop();
   }
 
-  if (gifFrame > 14 && gifFrame < 17) {
+  // ""PORFAVOR"" pt4
+  if (gifFrame > 16 && gifFrame < 19) {
     push();
-    translate(367, 330);
+    translate(400, 290);
     rotate(0.33);
 
     fill(255);
     stroke(255);
-    strokeWeight(1);
-    textFont(dejavuBold, 2.5);
-    text(txPorfavor, 0, 0); // tx ""PORFAVOR"" pt4
+    strokeWeight(0.36);
+    textFont(dejavuBold, 2.6);
+    text(txPorfavor, 0, 0); // tx
     pop();
   }
 
-  if (gifFrame > 20 && gifFrame < 23) {
+  // ""PORFAVOR"" pt5
+  if (gifFrame > 22 && gifFrame < 24) {
     push();
-    translate(374, 350);
+    translate(400, 330);
     rotate(0.44);
 
     fill(255);
     stroke(255);
-    strokeWeight(1);
+    strokeWeight(0.34);
     textFont(dejavuBold, 3);
-    text(txPorfavor, 0, 0); // tx ""PORFAVOR"" pt5
+    text(txPorfavor, 0, 0); // tx
     pop();
   }
 
-  if (gifFrame > 24 && gifFrame < 27) {
-    push();
-    translate(381, 370);
-    rotate(0.55);
-
-    fill(255);
-    stroke(255);
-    strokeWeight(1);
-    textFont(dejavuBold, 3.5);
-    text(txPorfavor, 0, 0); // tx ""PORFAVOR"" pt6
-    pop();
-  }
-
-  // push();
-  // fill(255, 100, 100);
-  // stroke(255);
-  // textFont(dejavuBold, 59)
-  // text(gifFrame, 400, 600); // TESTTT
-  // pop();
-
+  // ""HOLA""
   if (gifFrame > 29 && gifFrame < 44) {
     push();
     translate(230, 510);
@@ -255,10 +269,11 @@ function draw() {
 
     fill(255, t);
     textFont(dejavuBold, 5);
-    text(txHola, 0, 0); // tx ""HOLA""
+    text(txHola, 0, 0); // tx
     pop();
   } 
 
+  // ""HAY""
   if (gifFrame > 42 && gifFrame < 47) {
     push();
     translate(200, 460);
@@ -266,10 +281,11 @@ function draw() {
 
     fill(255);
     textFont(dejavuBold, 3);
-    text(txHayalguien1, 0, 0); // tx ""HAY""
+    text(txHayalguien1, 0, 0); // tx
     pop();
   } 
 
+  // ""ALGUIEN""
   if (gifFrame > 46 && gifFrame < 51) {
     push();
     translate(170, 400);
@@ -277,10 +293,11 @@ function draw() {
 
     fill(255);
     textFont(dejavuBold, 3);
-    text(txHayalguien2, 0, 0); // tx ""ALGUIEN""
+    text(txHayalguien2, 0, 0); // tx
     pop();
   } 
 
+  // ""AQUI""
   if (gifFrame > 50 && gifFrame < 55) {
     push();
     translate(140, 340);
@@ -288,27 +305,20 @@ function draw() {
 
     fill(255);
     textFont(dejavuBold, 3);
-    text(txHayalguien3, 0, 0); // tx ""AQUI""
+    text(txHayalguien3, 0, 0); // tx
     pop();
   } 
 
-  // textos fijos
+  // ""TUTORIA""
   push();
   resetMatrix();
 
   fill(0);
-  rect(11, 776, 468, 38); // abajo grande
+  rect(111, 785, 268, 22); // rect
 
   fill(255);
-  textFont(dejavu, 4.6);
-  text(txTutoria, 246, 796); // tx ""TUTORIA""
-
-  fill(0);
-  rect(220, 824, 50, 19); // abajo chico
-
-  fill(255);
-  textFont(dejavu, 2.2);
-  text(txAnio2, 247, 833); // tx ""2024""
+  textFont(dejavu, 2.6);
+  text(txTutoria, 246, 796); // tx
   pop();
 }
 
@@ -369,25 +379,9 @@ const txLupiloop  = `
 |_______||_______||___|    |___| |_______||_______||_______||___|    
 `;
 
-const txAnio1 = `
-___     ___    ___    _  _    
-|__ \   / _ \  |__ \  | || |   
-   ) | | | | |    ) | | || |_  
-  / /  | | | |   / /  |__   _| 
- / /_  | |_| |  / /_     | |   
-|____|  \___/  |____|    |_|   
-`;
+const txVersion = `v0.3`;
 
-const txTutoria = `
-████████╗ ██╗   ██╗ ████████╗  ██████╗  ██████╗  ██╗  █████╗     ██╗ ███╗   ██╗ ███████╗  ██████╗      ██████╗  ███████╗ ███╗   ██╗ ███████╗ ██████╗   █████╗  ██╗     
-╚══██╔══╝ ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔══██╗ ██║ ██╔══██╗    ██║ ████╗  ██║ ██╔════╝ ██╔═══██╗    ██╔════╝  ██╔════╝ ████╗  ██║ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║     
-   ██║    ██║   ██║    ██║    ██║   ██║ ██████╔╝ ██║ ███████║    ██║ ██╔██╗ ██║ █████╗   ██║   ██║    ██║  ███╗ █████╗   ██╔██╗ ██║ █████╗   ██████╔╝ ███████║ ██║     
-   ██║    ██║   ██║    ██║    ██║   ██║ ██╔══██╗ ██║ ██╔══██║    ██║ ██║╚██╗██║ ██╔══╝   ██║   ██║    ██║   ██║ ██╔══╝   ██║╚██╗██║ ██╔══╝   ██╔══██╗ ██╔══██║ ██║     
-   ██║    ╚██████╔╝    ██║    ╚██████╔╝ ██║  ██║ ██║ ██║  ██║    ██║ ██║ ╚████║ ██║      ╚██████╔╝    ╚██████╔╝ ███████╗ ██║ ╚████║ ███████╗ ██║  ██║ ██║  ██║ ███████╗
-   ╚═╝     ╚═════╝     ╚═╝     ╚═════╝  ╚═╝  ╚═╝ ╚═╝ ╚═╝  ╚═╝    ╚═╝ ╚═╝  ╚═══╝ ╚═╝       ╚═════╝      ╚═════╝  ╚══════╝ ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝
-`;
-
-const txAnio2 = `
+const txAnio = `
 ██████   ██████  ██████  ██   ██ 
      ██ ██    ██      ██ ██   ██ 
  █████  ██ ██ ██  █████  ███████ 
@@ -395,16 +389,22 @@ const txAnio2 = `
 ███████  ██████  ███████      ██ 
 `;
 
-const txAtencion = `
-  /██████  /████████ /████████ /██   /██  /██████  /██████  /██████  /██   /██
- /██__  ██|__  ██__/| ██_____/| ███ | ██ /██__  ██|_  ██_/ /██__  ██| ███ | ██
-| ██  \\ ██   | ██   | ██      | ████| ██| ██  \\__/  | ██  | ██  \\ ██| ████| ██
-| ████████   | ██   | █████   | ██ ██ ██| ██        | ██  | ██  | ██| ██ ██ ██
-| ██__  ██   | ██   | ██__/   | ██  ████| ██        | ██  | ██  | ██| ██  ████
-| ██  | ██   | ██   | ██      | ██\\  ███| ██    ██  | ██  | ██  | ██| ██\\  ███
-| ██  | ██   | ██   | ████████| ██ \\  ██|  ██████/ /██████|  ██████/| ██ \\  ██
+
+const txAtencion = () => {
+
+  const r = () => asciiAtenx[floor(random(3))];
+
+  return `
+  /${r()}${r()}${r()}${r()}${r()}${r()}  /${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()} /${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()} /${r()}${r()}   /${r()}${r()}  /${r()}${r()}${r()}${r()}${r()}${r()}  /${r()}${r()}${r()}${r()}${r()}${r()}  /${r()}${r()}${r()}${r()}${r()}${r()}  /${r()}${r()}   /${r()}${r()}
+ /${r()}${r()}__  ${r()}${r()}|__  ${r()}${r()}__/| ${r()}${r()}_____/| ${r()}${r()}${r()} | ${r()}${r()} /${r()}${r()}__  ${r()}${r()}|_  ${r()}${r()}_/ /${r()}${r()}__  ${r()}${r()}| ${r()}${r()}${r()} | ${r()}${r()}
+| ${r()}${r()}  \\ ${r()}${r()}   | ${r()}${r()}   | ${r()}${r()}      | ${r()}${r()}${r()}${r()}| ${r()}${r()}| ${r()}${r()}  \\__/  | ${r()}${r()}  | ${r()}${r()}  \\ ${r()}${r()}| ${r()}${r()}${r()}${r()}| ${r()}${r()}
+| ${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()}   | ${r()}${r()}   | ${r()}${r()}${r()}${r()}${r()}   | ${r()}${r()} ${r()}${r()} ${r()}${r()}| ${r()}${r()}        | ${r()}${r()}  | ${r()}${r()}  | ${r()}${r()}| ${r()}${r()} ${r()}${r()} ${r()}${r()}
+| ${r()}${r()}__  ${r()}${r()}   | ${r()}${r()}   | ${r()}${r()}__/   | ${r()}${r()}  ${r()}${r()}${r()}${r()}| ${r()}${r()}        | ${r()}${r()}  | ${r()}${r()}  | ${r()}${r()}| ${r()}${r()}  ${r()}${r()}${r()}${r()}
+| ${r()}${r()}  | ${r()}${r()}   | ${r()}${r()}   | ${r()}${r()}      | ${r()}${r()}\\  ${r()}${r()}${r()}| ${r()}${r()}    ${r()}${r()}  | ${r()}${r()}  | ${r()}${r()}  | ${r()}${r()}| ${r()}${r()}\\  ${r()}${r()}${r()}
+| ${r()}${r()}  | ${r()}${r()}   | ${r()}${r()}   | ${r()}${r()}${r()}${r()}${r()}${r()}${r()}${r()}| ${r()}${r()} \\  ${r()}${r()}|  ${r()}${r()}${r()}${r()}${r()}${r()}/ /${r()}${r()}${r()}${r()}${r()}${r()}|  ${r()}${r()}${r()}${r()}${r()}${r()}/| ${r()}${r()} \\  ${r()}${r()}
 |__/  |__/   |__/   |________/|__/  \\__/ \\______/ |______/ \\______/ |__/  \\__/
 `;
+}
 
 const txPorfavor = `
  /$$$$$$$   /$$$$$$  /$$$$$$$  /$$$$$$$$ /$$$$$$  /$$    /$$  /$$$$$$  /$$$$$$$                         
@@ -501,3 +501,21 @@ const txHayalguien3 = `
                     ░▒▓██▓▒░                                                                            
 `;
 
+
+const txTutoria = `
+████████╗ ██╗   ██╗ ████████╗  ██████╗  ██████╗  ██╗  █████╗     ██╗ ███╗   ██╗ ███████╗  ██████╗      ██████╗  ███████╗ ███╗   ██╗ ███████╗ ██████╗   █████╗  ██╗     
+╚══██╔══╝ ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔══██╗ ██║ ██╔══██╗    ██║ ████╗  ██║ ██╔════╝ ██╔═══██╗    ██╔════╝  ██╔════╝ ████╗  ██║ ██╔════╝ ██╔══██╗ ██╔══██╗ ██║     
+   ██║    ██║   ██║    ██║    ██║   ██║ ██████╔╝ ██║ ███████║    ██║ ██╔██╗ ██║ █████╗   ██║   ██║    ██║  ███╗ █████╗   ██╔██╗ ██║ █████╗   ██████╔╝ ███████║ ██║     
+   ██║    ██║   ██║    ██║    ██║   ██║ ██╔══██╗ ██║ ██╔══██║    ██║ ██║╚██╗██║ ██╔══╝   ██║   ██║    ██║   ██║ ██╔══╝   ██║╚██╗██║ ██╔══╝   ██╔══██╗ ██╔══██║ ██║     
+   ██║    ╚██████╔╝    ██║    ╚██████╔╝ ██║  ██║ ██║ ██║  ██║    ██║ ██║ ╚████║ ██║      ╚██████╔╝    ╚██████╔╝ ███████╗ ██║ ╚████║ ███████╗ ██║  ██║ ██║  ██║ ███████╗
+   ╚═╝     ╚═════╝     ╚═╝     ╚═════╝  ╚═╝  ╚═╝ ╚═╝ ╚═╝  ╚═╝    ╚═╝ ╚═╝  ╚═══╝ ╚═╝       ╚═════╝      ╚═════╝  ╚══════╝ ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚══════╝
+`;
+
+const txDesliza = `
+                              ██████╗     ███████╗    ███████╗    ██╗         ██╗    ███████╗     █████╗                               
+  █         █         █       ██╔══██╗    ██╔════╝    ██╔════╝    ██║         ██║    ╚══███╔╝    ██╔══██╗      █         █         █   
+ ███╗      ███╗      ███╗     ██║  ██║    █████╗      ███████╗    ██║         ██║      ███╔╝     ███████║     ███╗      ███╗      ███╗ 
+██╔██╗    ██╔██╗    ██╔██╗    ██║  ██║    ██╔══╝      ╚════██║    ██║         ██║     ███╔╝      ██╔══██║    ██╔██╗    ██╔██╗    ██╔██╗
+╚═╝╚═╝    ╚═╝╚═╝    ╚═╝╚═╝    ██████╔╝    ███████╗    ███████║    ███████╗    ██║    ███████╗    ██║  ██║    ╚═╝╚═╝    ╚═╝╚═╝    ╚═╝╚═╝
+                              ╚═════╝     ╚══════╝    ╚══════╝    ╚══════╝    ╚═╝    ╚══════╝    ╚═╝  ╚═╝                              
+`;
